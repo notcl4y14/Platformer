@@ -4,9 +4,12 @@ let context;
 let ticks = 0;
 let objects = [];
 
-let collider = new Collider({x: 10, y: 10}, {width: 50, height: 50});
+// let collider = new Collider({x: 10, y: 10}, {width: 50, height: 50});
+// let ent = new Entity(new Vector(10, 10), {width: 50, height: 50});
 
-let init = function () {};
+let init = function () {
+	objects.push( new Player(new Vector(10, 10), {width: 50, height: 50}) );
+};
 
 let loop = function () {
 	update();
@@ -19,11 +22,11 @@ let update = function () {
 	ticks += 1;
 	objects.forEach((object) => object.update());
 
-	let dirX = (input.isKeyDown("KeyD") - input.isKeyDown("KeyA"));
-	let dirY = (input.isKeyDown("KeyS") - input.isKeyDown("KeyW"));
+	// let dirX = (input.isKeyDown("KeyD") - input.isKeyDown("KeyA"));
+	// let dirY = (input.isKeyDown("KeyS") - input.isKeyDown("KeyW"));
 
-	collider.position.x += dirX * 2.5;
-	collider.position.y += dirY * 2.5;
+	// ent.collider.position.x += dirX * 2.5;
+	// ent.collider.position.y += dirY * 2.5;
 };
 
 let draw = function () {
@@ -32,7 +35,7 @@ let draw = function () {
 	
 	objects.forEach((object) => object.draw());
 
-	collider.draw();
+	// ent.draw();
 };
 
 window.onload = function () {
