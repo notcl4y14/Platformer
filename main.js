@@ -9,6 +9,7 @@ let objects = [];
 
 let init = function () {
 	objects.push( new Player(new Vector(10, 10), {width: 50, height: 50}) );
+	objects.push( new Entity(new Vector(5, 500), {width: 200, height: 50}) );
 };
 
 let loop = function () {
