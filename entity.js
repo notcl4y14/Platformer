@@ -1,23 +1,27 @@
 let Entity = class {
-	constructor (position, dimensions) {
-		this.collider = new Collider(position, dimensions);
+	constructor (position, size) {
+		this.collider = new Collider(position, size);
 		this.velocity = new Vector(0, 0);
+
+		this.origin_position = position.clone();
+		this.origin_size = { width: size.width, height: size.height };
+		this.collisions = [];
 	};
 
 	////////////////////
 	get position () {
 		return this.collider.position;
 	};
-	get dimensions () {
-		return this.collider.dimensions;
+	get size () {
+		return this.collider.size;
 	};
 	////////////////////
 	separate (other) {
 		// https://www.sololearn.com/en/compiler-playground/WPmcR2CPfaIU
 		// line: 2029
 
-		let centerX = other.position.x + other.dimensions.width / 2;
-		let centerY = other.position.y + other.dimensions.height / 2;
+		let centerX = other.position.x + other.size.width / 2;
+		let centerY = other.position.y + other.size.height / 2;
 
 		let dx = this.position.x - centerX;
 		let dy = this.position.y - centerY;
@@ -25,8 +29,8 @@ let Entity = class {
 		// https://stackoverflow.com/a/22440044/22146374
 		let x1 = Math.max(this.position.x, other.position.x);
 		let y1 = Math.max(this.position.y, other.position.y);
-		let x2 = Math.min(this.position.x + this.dimensions.width, other.position.x + other.dimensions.width);
-		let y2 = Math.min(this.position.y + this.dimensions.height, other.position.y + other.dimensions.height);
+		let x2 = Math.min(this.position.x + this.size.width, other.position.x + other.size.width);
+		let y2 = Math.min(this.position.y + this.size.height, other.position.y + other.size.height);
 
 		let interRect = {
 			x: x1,
@@ -47,6 +51,9 @@ let Entity = class {
 		}
 	};
 	////////////////////
+	onCollision_enter (other) {};
+	onCollision_leave (other) {};
+	////////////////////
 	update () {};
 	draw () {
 		this.collider.draw();
@@ -54,7 +61,7 @@ let Entity = class {
 		let className = this.constructor.name;
 		let x = this.position.x;
 		let y = this.position.y;
-		let height = this.dimensions.height;
+		let height = this.size.height;
 
 		context.fillStyle = "#ffffff";
 		context.fillText(className, x, y + height + 7);

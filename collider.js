@@ -1,18 +1,18 @@
-let Collider = function (position, dimensions, pivot = {x: 0, y: 0}) {
+let Collider = function (position, size, pivot) {
 	this.position = position;
-	this.dimensions = dimensions;
-	this.pivot = pivot;
+	this.size = size;
+	this.pivot = pivot || (() => new Vector(0, 0));
 
 	////////////////////
 	this.intersects = function (other) {
-		let x1 = this.position.x,
-		    y1 = this.position.y,
-			w1 = this.dimensions.width,
-			h1 = this.dimensions.height,
-			x2 = other.position.x,
-		    y2 = other.position.y,
-			w2 = other.dimensions.width,
-			h2 = other.dimensions.height;
+		let x1 = this.pivoted().x,
+		    y1 = this.pivoted().y,
+			w1 = this.size.width,
+			h1 = this.size.height,
+			x2 = other.pivoted().x,
+		    y2 = other.pivoted().y,
+			w2 = other.size.width,
+			h2 = other.size.height;
 		
 		return x1 < x2 + w2 &&
 			x2 < x1 + w1 &&
@@ -20,18 +20,18 @@ let Collider = function (position, dimensions, pivot = {x: 0, y: 0}) {
 			y2 < y1 + h1;
 	};
 
-	this.pivoted = function (x, y) {
+	this.pivoted = function (x = this.position.x, y = this.position.y) {
 		return {
-			x: x - this.pivot.x,
-			y: y - this.pivot.y
+			x: x - this.pivot().x,
+			y: y - this.pivot().y
 		};
 	};
 	////////////////////
 	this.draw = function (fillColor = "rgba(0,0,255,0.2)", outlineColor = "#ffffff") {
 		let pos = this.position;
 		let {x, y} = this.pivoted(pos.x, pos.y);
-		let width = this.dimensions.width;
-		let height = this.dimensions.height;
+		let width = this.size.width;
+		let height = this.size.height;
 
 		context.fillStyle = fillColor;
 		context.fillRect(x, y, width, height);

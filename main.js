@@ -16,15 +16,28 @@ let gridH = 32;
 let spr_vignette = new Image();
 let spr_sky = new Image();
 let spr_sky_rain = new Image();
+let spr_grass_block = new Image();
+let spr_dirt = new Image();
+let spr_grass = new Image();
 spr_vignette.src = "assets/vignette7.png";
 spr_sky.src = "assets/sky.png";
 spr_sky_rain.src = "assets/sky_rain.png";
+spr_grass_block.src = "assets/grass_block.png";
+spr_dirt.src = "assets/dirt.png";
+spr_grass.src = "assets/grass.png";
 
 let init = function () {
 	objects.push( new Player(new Vector(200, 200), {width: 50, height: 50}) );
 	objects.push( new Block(new Vector(0*gridW, 15*gridH), {width: 43*gridW, height: 5*gridH}) );
 	objects.push( new Block(new Vector(0*gridW, 0*gridH), {width: 3*gridW, height: 15*gridH}) );
 	objects.push( new Block(new Vector(20*gridW, 12*gridH), {width: 3*gridW, height: 1*gridH}) );
+
+	for (let i = 0; i < 4; i++) {
+		objects.push( new Grass(new Vector((10 + i) * gridW, 15 * gridH), {width: 1*gridW, height: 1*gridH}) );
+	}
+	objects.push( new Grass(new Vector(4*gridW, 15*gridH), {width: 1*gridW, height: 1*gridH}) );
+	objects.push( new Grass(new Vector(14*gridW, 15*gridH), {width: 1*gridW, height: 1*gridH}) );
+	objects.push( new Grass(new Vector(25*gridW, 15*gridH), {width: 1*gridW, height: 1*gridH}) );
 };
 
 let loop = function () {
@@ -36,7 +49,22 @@ let loop = function () {
 
 let update = function () {
 	ticks += 1;
-	objects.forEach((object) => object.update());
+	objects.forEach((object) => {
+		objects.forEach((object2) => {
+			if (object != object2) {
+				if (object.collider.intersects(object2.collider)) {
+					if (!object.collisions.includes(object2)) {
+						object.onCollision_enter(object2);
+						object.collisions.push(object2);
+					}
+				} else if (!object.collider.intersects(object2.collider) && object.collisions.includes(object2)) {
+					object.onCollision_leave(object2);
+					object.collisions.splice(object.collisions.indexOf(object2), 1);
+				}
+			}
+		})
+		object.update()
+	});
 };
 
 let draw = function () {
@@ -83,7 +111,7 @@ let draw = function () {
 			for (let y = 0; y < canvas.height / gridH; y++) {
 				if (!objects[0].collider.intersects({
 					position: new Vector(x * gridW, y * gridH),
-					dimensions: { width: gridW, height: gridH }
+					size: { width: gridW, height: gridH }
 				})) continue;
 
 				context.strokeStyle = "rgba(255,255,255,1)";
