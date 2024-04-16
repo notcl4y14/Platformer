@@ -1,6 +1,9 @@
 let Player = class extends Entity {
 	constructor (position, size) {
 		super(position, size);
+
+		this.jumps = 0;
+		this.jumpsMax = 2;
 	};
 
 	update () {
@@ -16,8 +19,9 @@ let Player = class extends Entity {
 	
 		this.position.x += dirX * 4;
 		
-		if (jump) {
-			this.velocity.y = -10;
+		if (jump && this.jumps < this.jumpsMax) {
+			this.velocity.y = -7;
+			this.jumps++;
 		}
 
 		// Applying velocity
@@ -42,6 +46,7 @@ let Player = class extends Entity {
 					this.velocity.x = 0;
 				} else if (pivot.y == 1) {
 					this.velocity.y = 0;
+					this.jumps = 0;
 				}
 			}
 		}

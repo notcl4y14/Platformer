@@ -27,10 +27,11 @@ spr_dirt.src = "assets/dirt.png";
 spr_grass.src = "assets/grass.png";
 
 let init = function () {
-	objects.push( new Player(new Vector(200, 200), {width: 50, height: 50}) );
+	objects.push( new Player(new Vector(200, 200), {width: 32, height: 64}) );
 	objects.push( new Block(new Vector(0*gridW, 15*gridH), {width: 43*gridW, height: 5*gridH}) );
 	objects.push( new Block(new Vector(0*gridW, 0*gridH), {width: 3*gridW, height: 15*gridH}) );
 	objects.push( new Block(new Vector(20*gridW, 12*gridH), {width: 3*gridW, height: 1*gridH}) );
+	objects.push( new Block(new Vector(18*gridW, 14*gridH + 28), {width: 3*gridW, height: 0.2*gridH}) );
 
 	for (let i = 0; i < 4; i++) {
 		objects.push( new Grass(new Vector((10 + i) * gridW, 15 * gridH), {width: 1*gridW, height: 1*gridH}) );
@@ -109,10 +110,10 @@ let draw = function () {
 		// Drawing grid that the player intersects with
 		for (let x = 0; x < canvas.width / gridW; x++) {
 			for (let y = 0; y < canvas.height / gridH; y++) {
-				if (!objects[0].collider.intersects({
-					position: new Vector(x * gridW, y * gridH),
-					size: { width: gridW, height: gridH }
-				})) continue;
+				if (!objects[0].collider.intersects(new Entity(
+					new Vector(x * gridW, y * gridH),
+					{ width: gridW, height: gridH }
+				).collider)) continue;
 
 				context.strokeStyle = "rgba(255,255,255,1)";
 				context.strokeRect(
