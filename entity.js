@@ -15,32 +15,6 @@ let Entity = class {
 	separate (other) {
 		// https://www.sololearn.com/en/compiler-playground/WPmcR2CPfaIU
 		// line: 2029
-		// let dw = (this.dimensions.width)/2 + (other.dimensions.width)/2;
-		// let dh = (this.dimensions.height)/2 + (other.dimensions.height)/2;
-		
-		// let dx = this.position.x - other.position.x;
-		// let dy = this.position.y - other.position.y;
-
-		// let vx = dx > 0 ? dw - dx : -dw - dx;
-		// let vy = dy > 0 ? dh - dy : -dh - dy;
-
-		// if (Math.abs(dx) > Math.abs(dy)) {
-		// 	this.position.x += vx;
-		// } else {
-		// 	this.position.y += vy;
-		// }
-
-		// if (this.position.x < other.position.x + other.dimensions.width / 2) {
-		// 	this.position.x = other.position.x - this.dimensions.width;
-		// } else if (this.position.x > other.position.x + other.dimensions.width / 2) {
-		// 	this.position.x = other.position.x + other.dimensions.width;
-		// }
-
-		// else if (this.position.y < other.position.y + other.dimensions.height / 2) {
-		// 	this.position.y = other.position.y - this.dimensions.height;
-		// } else if (this.position.y > other.position.y + other.dimensions.height / 2) {
-		// 	this.position.y = other.position.y + other.dimensions.height;
-		// }
 
 		let centerX = other.position.x + other.dimensions.width / 2;
 		let centerY = other.position.y + other.dimensions.height / 2;
