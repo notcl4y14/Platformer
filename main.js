@@ -19,12 +19,14 @@ let spr_sky_rain = new Image();
 let spr_grass_block = new Image();
 let spr_dirt = new Image();
 let spr_grass = new Image();
+let spr_cloud = new Image();
 spr_vignette.src = "assets/vignette7.png";
 spr_sky.src = "assets/sky.png";
 spr_sky_rain.src = "assets/sky_rain.png";
 spr_grass_block.src = "assets/grass_block.png";
 spr_dirt.src = "assets/dirt.png";
 spr_grass.src = "assets/grass.png";
+spr_cloud.src = "assets/cloud.png";
 
 let init = function () {
 	objects.push( new Player(new Vector(200, 200), {width: 32, height: 64}) );
